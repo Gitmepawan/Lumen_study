@@ -1,0 +1,27 @@
+
+Install new Lumen app in Terminal:
+
+Composer create-project --prefer-dist laravel/lumen
+
+
+
+In terminal:
+
+composer require flipbox/lumen-generator
+
+
+
+Add to bootstrap>>app.php:
+
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+
+
+
+Launch lumen app in terminal outside of htdocs:
+
+php -S localhost:8000 -t public
+
+
+In hotdogs, go to:
+
+localhost:8888/lumen/public
