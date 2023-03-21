@@ -1,6 +1,14 @@
 <?php
 
 /** @var \Laravel\Lumen\Routing\Router $router */
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization');
+Route::options('/{any:.*}', [function (){ 
+   return response(['status' => 'success']); 
+  }
+ ]
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -11,17 +19,35 @@
 | It is a breeze. Simply tell Lumen the URIs it should respond to
 | and give it the Closure to call when that URI is requested.
 |
+
 */
-// localhost/lumen/public
+
+// to wrap up like 
+//localhost:8000/api
+$router->group(['prefix' => 'api'], function () use ($router) {
+
+
+//localhost:8000
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return 'Graaahhhhhhhhh!!!!!';
 });
 
-// http://localhost/lumen/public/books/
-$router->get('books', ['uses' => 'BookController@showALLBooks']);
-// http://localhost/lumen/public/books/5
-$router->get('books/{id}', ['uses' => 'BookController@showOneBook']);
+//localhost:8000/books
+$router->get('books',['uses' => 'BookController@getAllBooks']);
 
-$router->get('authors', ['uses' => 'AuthorController@showALLAuthors']);
+//localhost:8000/books/2
+$router->get('books/{id}',['uses' => 'BookController@getOneBook']);
 
-$router->get('authors/{author_id}', ['uses' => 'AuthorController@showOneAuthor']);
+// CRUD
+
+// create
+$router->post('books',['uses' => 'BookController@createBook']);
+
+// delete
+$router->delete('books/{id}',['uses' => 'BookController@deleteBook']);
+
+// update
+$router->put('books/{id}',['uses' => 'BookController@updateBook']);
+
+
+});
